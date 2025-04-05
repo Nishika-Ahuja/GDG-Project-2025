@@ -1,0 +1,17 @@
+<div *ngIf="loading" class="loading">Loading...</div>
+
+<div *ngIf="!loading && userData; else noUser" class="profile-container">
+  <div class="profile-avatar">
+    {{ userData.fullName.charAt(0) | uppercase }}
+  </div>
+
+  <h2>Welcome, {{ userData.fullName }}</h2>
+  <p><strong>Email:</strong> {{ userData.email }}</p>
+  <p><strong>User ID:</strong> {{ userId }}</p>
+</div>
+
+<ng-template #noUser>
+  <div class="profile-container">
+    <p>No user data found.</p>
+  </div>
+</ng-template>

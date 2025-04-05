@@ -1,0 +1,54 @@
+<div class="modules-container">
+  <h1 class="page-title">🔥 Fire Safety Training Videos</h1>
+
+  <div class="modules-grid">
+    <div class="module-card" *ngFor="let video of videos">
+      <h2>{{ video.title }}</h2>
+      <p>{{ video.description }}</p>
+
+      <div class="button-group">
+        <a [href]="video.url" target="_blank" class="btn btn-primary">
+          <span>▶</span> Watch Video
+        </a>
+
+        <button (click)="generateQuiz(video)" class="btn btn-primary">
+          ⚡ Generate Quiz
+        </button>
+
+        <button (click)="toggleChat(video.id)" class="btn btn-primary">
+          💬 Chat with AI
+        </button>
+      </div>
+
+    <!-- Chat Modal -->
+<div *ngIf="chatOpen[video.id]" class="chat-modal">
+  <div class="chat-modal-content">
+    <span class="close-button" (click)="toggleChat(video.id)">&times;</span>
+    <h3>Chat with AI about: {{ video.title }}</h3>
+
+    <div class="chat-messages">
+      <div *ngFor="let msg of chatMessages[video.id]">
+
+        <p [style.text-align]="msg.role === 'user' ? 'right' : 'left'">
+  <strong>{{ msg.role === 'user' ? 'You:' : 'Bot:' }}</strong>
+  <span *ngIf="msg.role === 'user'">{{ msg.content }}</span>
+  <span *ngIf="msg.role === 'bot'" [innerHTML]="msg.content"></span>
+</p>
+
+      
+      </div>
+    </div>
+
+    <div class="chat-input">
+      <input type="text" #inputRef class="chat-input-box" placeholder="Ask something..." />
+      <button (click)="sendMessage(video.id, inputRef.value); inputRef.value=''" class="btn btn-primary">
+        Send
+      </button>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </div>
+</div>
+

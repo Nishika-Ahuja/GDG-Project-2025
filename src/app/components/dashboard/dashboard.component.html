@@ -1,0 +1,55 @@
+<div class="dashboard-container" *ngIf="quizzesData.length > 0; else noData">
+  <h2>User Dashboard</h2>
+
+  <div class="progress-bar">
+    <label>📊 Progress: {{ progressPercentage }}%</label>
+    <div class="bar">
+      <div class="fill" [style.width.%]="progressPercentage"></div>
+    </div>
+  </div>
+
+
+  <div class="quiz-list">
+    <div class="quiz-item" *ngFor="let quiz of quizzesData" (click)="viewAnalysis(quiz)">
+      <h3>Module: {{ quiz.videoId }}</h3>
+      <p>Score: {{ quiz.score }} / {{ quiz.totalQuestions }}</p>
+      <p>Accuracy: {{ quiz.percentage }}%</p>
+
+         <button class="toggle-btn" (click)="toggleFeedback(quiz.videoId)">
+      📥 View Personalized Feedback
+    </button>
+
+
+
+                <div class="feedback-box" *ngIf="expandedFeedbackQuizId === quiz.videoId">
+            <app-ai-feedback 
+            *ngIf="userId" 
+            [quizzesData]="[quiz]" 
+            [userId]="userId!" 
+            [videoId]="quiz.videoId">
+            </app-ai-feedback>
+
+            </div>
+
+
+    
+
+      <!-- Analysis shown only if selectedQuiz matches -->
+      <div class="analysis-box" *ngIf="selectedQuiz?.videoId === quiz.videoId">
+        <h4>📘 Analysis for Module: {{ quiz.videoId }}</h4>
+        <div *ngFor="let q of selectedQuiz.analysis; let i = index">
+          <p><strong>Q{{ i + 1 }}:</strong> {{ q.question }}</p>
+          <p>✅ Correct Answer: {{ q.correct }}</p>
+          <p [ngStyle]="{color: q.correct === q.userAnswer ? 'green' : 'red'}">
+            🧠 Your Answer: {{ q.userAnswer || 'Not Answered' }}
+          </p>
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #noData>
+  <p>No quiz attempts found for this user.</p>
+</ng-template>

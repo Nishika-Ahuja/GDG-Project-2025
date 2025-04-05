@@ -1,0 +1,55 @@
+<ng-container *ngIf="loading; else quizContent">
+  <p>Generating quiz... ⏳</p>
+</ng-container>
+
+<ng-template #quizContent>
+  <div *ngIf="quiz.length > 0; else noQuiz">
+    <h2>Quiz</h2>
+    <div *ngFor="let q of quiz; let i = index" class="quiz-card">
+      <h3>{{ i + 1 }}. {{ q.question }}</h3>
+      <div class="options">
+        <label *ngFor="let option of q.options">
+          <input
+            type="radio"
+            [name]="'question' + i"
+            [value]="option[0]"
+            [disabled]="submitted"
+            (change)="selectAnswer(i, option[0])"
+            [checked]="selectedAnswers[i] === option[0]"
+          />
+          {{ option[1] }}
+        </label>
+      </div>
+
+      <!-- Show correct/wrong after submission -->
+      <div *ngIf="submitted">
+        <p [ngStyle]="{ color: selectedAnswers[i] === q.answer ? 'green' : 'red' }">
+          Your Answer: {{ selectedAnswers[i] || 'Not Answered' }}
+        </p>
+        <p style="color: blue">Correct Answer: {{ q.answer }}</p>
+      </div>
+    </div>
+
+    <!-- Submit Button & Score -->
+   <div class="submit-section" *ngIf="!submitted">
+  <button 
+    (click)="submitQuiz()" 
+    [disabled]="!isAllAnswered()"
+  >
+    Submit
+  </button>
+  <p *ngIf="!isAllAnswered()" style="color: red; margin-top: 10px;">
+    ⚠️ Please answer all questions before submitting.
+  </p>
+</div>
+
+
+    <div *ngIf="submitted" class="score">
+      <h3>✅ Score: {{ score }} / {{ quiz.length }}</h3>
+    </div>
+  </div>
+
+  <ng-template #noQuiz>
+    <p>No quiz available for this video.</p>
+  </ng-template>
+</ng-template>

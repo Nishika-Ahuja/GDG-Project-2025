@@ -1,0 +1,96 @@
+/* Full page centering */
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Login box */
+.login-container {
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+  max-width: 420px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Heading */
+.login-container h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+}
+
+/* Input groups */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+  font-weight: 600;
+}
+
+/* Inputs */
+.form-control {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #dce3f0;
+  outline: none;
+  transition: 0.2s;
+  box-sizing: border-box;
+}
+
+.form-control:focus {
+  border-color: #ff4500;;
+  box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2);
+}
+
+/* Login button */
+button.btn.btn-primary {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  color: #ffffff;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  box-sizing: border-box;
+}
+
+button.btn.btn-primary:hover {
+  background-color: #ff4500;;
+}
+
+button.btn.btn-primary:disabled {
+  background-color: #fa5519;;
+  cursor: not-allowed;
+}
+
+/* Error & success messages */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+
+.success-message {
+  margin-top: 1.5rem;
+  background-color: #e9f9f4;
+  color: #1abc9c;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(26, 188, 156, 0.1);
+}

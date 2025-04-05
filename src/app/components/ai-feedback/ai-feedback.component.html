@@ -1,0 +1,5 @@
+<div *ngIf="loading">🧠 Generating AI feedback... please wait.</div>
+
+<div *ngIf="!loading && aiFeedback" class="feedback-box">
+  {{ aiFeedback }}
+</div>

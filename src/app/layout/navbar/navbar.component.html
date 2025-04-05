@@ -1,0 +1,23 @@
+<nav class="navbar">
+  <div class="navbar-container">
+    <a class="logo" href="#">🔥 FireSafetyAI</a>
+
+   <ul class="nav-links" [class.active]="menuOpen">
+  <li><a [routerLink]="['/home', userId]">Home</a></li>
+  <li><a [routerLink]="['/modules', userId]">Modules</a></li>
+  <li><a [routerLink]="['/dashboard', userId]">Dashboard</a></li>
+  <li><a [routerLink]="['/profile', userId]">Profile</a></li>
+
+</ul>
+
+
+    <div class="auth-buttons">
+      <button class="btn" routerLink="/login">Login</button>
+      <button class="btn" routerLink="/signup">Sign Up</button>
+    </div>
+
+    <div class="menu-icon" (click)="toggleMenu()">
+      <i class="fas" [ngClass]="menuOpen ? 'fa-times' : 'fa-bars'"></i>
+    </div>
+  </div>
+</nav>

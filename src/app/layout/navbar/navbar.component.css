@@ -1,0 +1,102 @@
+.navbar {
+  background-color: #1e1e1e;
+  color: white;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #ff4500;
+  text-decoration: none;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+  color: #ffa500;
+}
+
+.auth-buttons .btn {
+  background: #ff4500;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  margin-left: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.menu-icon {
+  display: none;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Responsive for mobile */
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 65px;
+    left: 0;  /* Start from left */
+    width: 100%; /* Full width */
+    background-color: #1e1e1e;
+    padding: 2rem 1.5rem; /* Proper padding */
+    text-align: left;
+    gap: 1rem;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Scroll if needed */
+    max-height: 90vh; /* Prevent full screen blocking */
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-links li {
+    padding: 0.8rem 0;
+    font-size: 1.2rem;
+  }
+
+  .nav-links li a {
+    font-size: 1.2rem;
+    color: white;
+  }
+
+  .menu-icon {
+    display: block;
+    font-size: 2rem;
+    padding-right: 1rem;
+  }
+
+  .auth-buttons {
+    display: block;
+    margin-top: 1.5rem;
+  }
+}
+
+
