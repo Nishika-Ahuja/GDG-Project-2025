@@ -32,9 +32,6 @@
             </div>
 
 
-    
-
-      <!-- Analysis shown only if selectedQuiz matches -->
       <div class="analysis-box" *ngIf="selectedQuiz?.videoId === quiz.videoId">
         <h4>📘 Analysis for Module: {{ quiz.videoId }}</h4>
         <div *ngFor="let q of selectedQuiz.analysis; let i = index">

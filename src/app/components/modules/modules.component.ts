@@ -49,6 +49,9 @@ export class ModulesComponent implements OnInit {
     private router: Router
   ) {}
 
+  generatingQuizVideoId: string | null = null;
+
+
   async ngOnInit() {
     this.routeUserId = this.route.snapshot.paramMap.get('id');
 
@@ -81,6 +84,8 @@ async generateQuiz(video: FireSafetyVideo) {
     alert('Transcript not available or user not loaded.');
     return;
   }
+
+  this.generatingQuizVideoId = video.id;
 
   const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${environment.geminiApiKey}`;
 
@@ -118,6 +123,8 @@ Return only JSON without markdown or explanations.`;
 
         alert('Quiz generated successfully!');
 
+         this.generatingQuizVideoId = null;
+
         // ✅ Navigate only after saving the quiz
         this.router.navigate(['/quizzes', video.id], {
           queryParams: { userId: this.routeUserId }
@@ -125,11 +132,13 @@ Return only JSON without markdown or explanations.`;
       } catch (parseError) {
         console.error('Quiz parsing failed:', parseError);
         alert('Quiz generation failed. Invalid format from Gemini.');
+        this.generatingQuizVideoId = null;
       }
     },
     error: (err) => {
       console.error('Error generating quiz:', err);
       alert('Quiz generation failed.');
+      this.generatingQuizVideoId = null;
     }
   });
 }

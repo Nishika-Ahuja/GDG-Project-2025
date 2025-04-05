@@ -18,7 +18,15 @@
         <button (click)="toggleChat(video.id)" class="btn btn-primary">
           💬 Chat with AI
         </button>
+
+        
       </div>
+
+      <div *ngIf="generatingQuizVideoId === video.id" class="loading-overlay">
+  <div class="loading-spinner"></div>
+  <p>Generating quiz, please wait...</p>
+</div>
+
 
     <!-- Chat Modal -->
 <div *ngIf="chatOpen[video.id]" class="chat-modal">
@@ -40,7 +48,8 @@
     </div>
 
     <div class="chat-input">
-      <input type="text" #inputRef class="chat-input-box" placeholder="Ask something..." />
+      <input type="text" #inputRef class="chat-input-box" placeholder="Ask something..."   #chatInputBox
+          (keydown.enter)="sendMessage(video.id, chatInputBox.value); chatInputBox.value=''"/>
       <button (click)="sendMessage(video.id, inputRef.value); inputRef.value=''" class="btn btn-primary">
         Send
       </button>
