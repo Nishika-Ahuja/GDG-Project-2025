@@ -76,62 +76,63 @@ export class ModulesComponent implements OnInit {
     });
   }
 
-  async generateQuiz(video: FireSafetyVideo) {
-    this.router.navigate(['/quizzes', video.id], {
-      queryParams: { userId: this.routeUserId }
-    });
+async generateQuiz(video: FireSafetyVideo) {
+  if (!video.transcript || !this.currentUser) {
+    alert('Transcript not available or user not loaded.');
+    return;
+  }
 
-    if (!video.transcript || !this.currentUser) {
-      alert('Transcript not available or user not loaded.');
-      return;
-    }
+  const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${environment.geminiApiKey}`;
 
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${environment.geminiApiKey}`;
-
-    const prompt = `Create a 10-question multiple-choice quiz from this transcript:\n\n${video.transcript}
+  const prompt = `Create a 10-question multiple-choice quiz from this transcript:\n\n${video.transcript}
 Each question should have:
 - 1 question string
 - 4 options (A, B, C, D)
 - Correct answer as one of A, B, C, D
 Return only JSON without markdown or explanations.`;
 
-    const body = {
-      contents: [{ role: 'user', parts: [{ text: prompt }] }]
-    };
+  const body = {
+    contents: [{ role: 'user', parts: [{ text: prompt }] }]
+  };
 
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    this.http.post<any>(url, body, { headers }).subscribe({
-      next: async (res) => {
-        try {
-          let quizText = res?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-          if (!quizText) throw new Error('Empty response from Gemini');
+  this.http.post<any>(url, body, { headers }).subscribe({
+    next: async (res) => {
+      try {
+        let quizText = res?.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+        if (!quizText) throw new Error('Empty response from Gemini');
 
-          const cleanedText = quizText
-            .replace(/^```json\s*/i, '')
-            .replace(/```$/, '')
-            .trim();
+        const cleanedText = quizText
+          .replace(/^```json\s*/i, '')
+          .replace(/```$/, '')
+          .trim();
 
-          const quizData = JSON.parse(cleanedText);
+        const quizData = JSON.parse(cleanedText);
 
-          const userDocRef = doc(this.firestore, 'registration', this.routeUserId!);
-          const updatedQuizzes = { ...this.currentUser!.quizzes, [video.id]: quizData };
+        const userDocRef = doc(this.firestore, 'registration', this.routeUserId!);
+        const updatedQuizzes = { ...this.currentUser!.quizzes, [video.id]: quizData };
 
-          await updateDoc(userDocRef, { quizzes: updatedQuizzes });
-          this.currentUser!.quizzes = updatedQuizzes;
+        await updateDoc(userDocRef, { quizzes: updatedQuizzes });
+        this.currentUser!.quizzes = updatedQuizzes;
 
-          alert('Quiz saved successfully!');
-        } catch (parseError) {
-          console.error('Quiz parsing failed:', parseError);
-          alert('Quiz generation failed. Invalid format from Gemini.');
-        }
-      },
-      error: (err) => {
-        console.error('Error generating quiz:', err);
-        alert('Quiz generation failed.');
+        alert('Quiz generated successfully!');
+
+        // ✅ Navigate only after saving the quiz
+        this.router.navigate(['/quizzes', video.id], {
+          queryParams: { userId: this.routeUserId }
+        });
+      } catch (parseError) {
+        console.error('Quiz parsing failed:', parseError);
+        alert('Quiz generation failed. Invalid format from Gemini.');
       }
-    });
-  }
+    },
+    error: (err) => {
+      console.error('Error generating quiz:', err);
+      alert('Quiz generation failed.');
+    }
+  });
+}
 
   toggleChat(videoId: string) {
     this.chatOpen[videoId] = !this.chatOpen[videoId];
