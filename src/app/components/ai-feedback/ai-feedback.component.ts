@@ -1,6 +1,10 @@
+// MODULES //
 import { Component, Input, OnChanges } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Firestore, doc, getDoc, updateDoc } from '@angular/fire/firestore';
+
+// UTILS //
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-ai-feedback',
@@ -46,8 +50,7 @@ export class AiFeedbackComponent implements OnChanges {
   }
 
   generateAIbasedFeedback(userDocRef: any) {
-    const apiKey = 'AIzaSyD7Fq3CRa1tOAgOgEaKczD9_7d3OCinNGk'; 
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${environment.geminiApiKey}`;
 
     let inputSummary = 'Give personalized feedback based on the quiz performance below:\n\n';
 

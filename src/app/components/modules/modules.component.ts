@@ -151,7 +151,7 @@ Return only JSON without markdown or explanations.`;
     const fullPrompt = `Transcript:\n${transcript}\n\nUser's question:\n${message}\n\nPlease answer clearly. If the user's question is not related to the video content, politely respond with: "Kindly ask questions related to the video content only."`;
 
 
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=AIzaSyD7Fq3CRa1tOAgOgEaKczD9_7d3OCinNGk`;
+    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${environment.geminiApiKey}`;
 
     const body = {
       contents: [{ role: 'user', parts: [{ text: fullPrompt }] }]
