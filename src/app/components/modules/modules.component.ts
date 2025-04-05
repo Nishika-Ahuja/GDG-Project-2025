@@ -1,3 +1,4 @@
+// MODULES //
 import { Component, OnInit } from '@angular/core';
 import {
   Firestore,
@@ -9,6 +10,9 @@ import {
 } from '@angular/fire/firestore';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+
+// UTILS //
+import { environment } from 'src/environments/environment';
 
 interface FireSafetyVideo {
   id: string;
@@ -82,8 +86,7 @@ export class ModulesComponent implements OnInit {
       return;
     }
 
-    const apiKey = 'AIzaSyD7Fq3CRa1tOAgOgEaKczD9_7d3OCinNGk'; 
-    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${environment.geminiApiKey}`;
 
     const prompt = `Create a 10-question multiple-choice quiz from this transcript:\n\n${video.transcript}
 Each question should have:
